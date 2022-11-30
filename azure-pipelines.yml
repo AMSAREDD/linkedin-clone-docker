@@ -1,0 +1,35 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables: 
+  imagename: 'dockerhubupdate/Dockercicdpipeline:$(build.buildNumber)'
+
+steps:
+
+- task: Docker@1 
+  displayName: 'Build an image'
+  inputs:
+    command: Build an image
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: Dockerhub
+    dockerFile: Dockerfile 
+    imageName: $(imagename)
+    restartPolicy: always
+
+- task: Docker@1
+  displayName: 'push an image'
+  inputs:
+    command: Push an image
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: Dockerhub
+    dockerFile: Dockerfile
+    imageName: $(imageName)
+    restartPolicy: always
